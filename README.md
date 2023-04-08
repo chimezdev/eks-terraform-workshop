@@ -12,3 +12,15 @@ To get started, create some files, play with the terminal,
 or visit https://docs.aws.amazon.com/console/cloud9/ for our documentation.
 
 Happy coding!
+
+# THE AMAZON EKS WORKSHOP 
+https://aws.amazon.com/blogs/containers/introducing-the-amazon-eks-workshop/
+
+# Provisioning of Amazon EKS Cluster and deployment of containerized application using terraform
+
+## Setting up Cloud9
+
+## Provision Amazon VPC
+
+## Provision EKS Cluster with Managed Node Group
+
