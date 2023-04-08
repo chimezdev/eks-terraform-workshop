@@ -57,6 +57,46 @@ module "eks_blueprints" {
       subnet_ids      = module.vpc.private_subnets
     }
   }
+  
+  # Adding the Platform Team definition to our main.tf of this eks_blueprints module.
+  # create a dedicated role arn:aws:iam::0123456789:role/eks-blueprint-admin-access that will allow you to managed the cluster as administrator.
+    platform_teams = {
+    admin = {
+      users = [
+        data.aws_caller_identity.current.arn
+      ]
+    }
+  }
+  
+  # Define Development Team in the EKS Platform as a Tenant.
+  # If you have specific IAM Roles you would like to add to the team definition, you can do so in the users array which expects the IAM Role ARN.
+    application_teams = {
+    team-riker = {
+      "labels" = {
+        "appName"     = "riker-team-app",
+        "projectName" = "project-riker",
+        "environment" = "dev",
+        "domain"      = "tokkapart.com",
+        "uuid"        = "chimezdev",
+        "billingCode" = "example",
+        "branch"      = "main"
+      }
+      "quota" = {
+        "requests.cpu"    = "10",
+        "requests.memory" = "20Gi",
+        "limits.cpu"      = "30",
+        "limits.memory"   = "50Gi",
+        "pods"            = "15",
+        "secrets"         = "10",
+        "services"        = "10"
+      }
+      ## Manifests Example: we can specify a directory with kubernetes manifests that can be automatically applied in the team-riker namespace.
+      manifests_dir = "./kubernetes/team-riker"
+      users         = [data.aws_caller_identity.current.arn]
+    }
+  }
+
+
 
   tags = local.tags
 }
